@@ -25,30 +25,30 @@ function App() {
   // Available highlight colors (avoiding red which might indicate errors)
   const highlightColors = [
     "emerald", // keep green as an option
-    "blue",
     "purple",
     "yellow",
+    "blue",
     "orange",
     "pink",
     "indigo",
     "cyan",
   ];
 
-  // Get the next color in the sequence
-  const getNextColor = () => {
-    const nextIndex = (colorIndex + 1) % highlightColors.length;
-    setColorIndex(nextIndex);
-    return highlightColors[nextIndex];
+  // Get color at specific index
+  const getColor = (index: number) => {
+    // Special case: if we're getting the base color (index = -1) for initial state (colorIndex = 0)
+    if (index === -1 && colorIndex === 0) return "emerald";
+    return highlightColors[
+      ((index % highlightColors.length) + highlightColors.length) %
+        highlightColors.length
+    ];
   };
 
-  // Get the current (last confirmed) color
-  const getCurrentColor = () => highlightColors[colorIndex];
-
-  // Get the previous color in the sequence
-  const getPreviousColor = () => {
-    const prevIndex =
-      (colorIndex - 1 + highlightColors.length) % highlightColors.length;
-    return highlightColors[prevIndex];
+  // Get the next color in the sequence
+  const getNextColor = () => {
+    const nextIndex = colorIndex + 1;
+    setColorIndex(nextIndex);
+    return getColor(nextIndex);
   };
 
   // Get the current block from the latest flashblock
@@ -309,7 +309,7 @@ function App() {
                 txLocation?.type === "block"
               }
               highlightColor={txColor}
-              baseColor={getPreviousColor()}
+              baseColor={getColor(colorIndex - 1)}
             />
 
             <GameOfLife
@@ -321,7 +321,7 @@ function App() {
               pattern={pattern}
               highlight={txLocation?.type === "block"}
               highlightColor={txColor}
-              baseColor={getPreviousColor()}
+              baseColor={getColor(colorIndex - 1)}
             />
           </div>
 
@@ -343,7 +343,7 @@ function App() {
               </p>
               <p>
                 Initiate a transaction to change the colour of the board, and
-                see how it more quickly propagates to the Flashblocks game.
+                see how it more quickly it updates the Flashblocks game.
               </p>
               <div className="pt-2">
                 <p className="font-medium text-white">Links:</p>
