@@ -7,7 +7,8 @@ import { useState, useEffect, useMemo } from 'react'
 import * as Ariakit from "@ariakit/react"
 
 function App() {
-  const { blocks, receiptLocations } = useFlashblocksStream();
+  const { blocks, receiptLocations, isConnected, reconnect } =
+    useFlashblocksStream();
 
   // Track block numbers and flashblock counts
   const [blockTicks, setBlockTicks] = useState(0);
@@ -189,6 +190,28 @@ function App() {
               >
                 <span>?</span>
               </Ariakit.Button>
+              <Ariakit.Button
+                onClick={() => {
+                  setBlockTicks(0);
+                  setFlashblockTicks(0);
+                  setResetKey((prev) => prev + 1);
+                }}
+                className="h-[34px] px-3 py-1.5 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors border border-gray-700 flex items-center gap-2"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
+                </svg>
+              </Ariakit.Button>
             </div>
             <div className="flex gap-2">
               <Ariakit.MenuProvider>
@@ -258,7 +281,7 @@ function App() {
                     <span>Sending...</span>
                   </>
                 ) : (
-                  "Change Color"
+                  "New Color"
                 )}
               </Ariakit.Button>
             </div>
@@ -389,6 +412,21 @@ function App() {
           </Ariakit.Dialog>
         </div>
       </div>
+      <Ariakit.Button
+        onClick={isConnected ? undefined : reconnect}
+        disabled={isConnected}
+        className={`fixed bottom-4 right-4 h-8 w-8 rounded-full transition-colors border flex items-center justify-center ${
+          isConnected
+            ? "bg-emerald-900/20 border-emerald-800 text-emerald-400 cursor-default"
+            : "bg-red-900/20 border-red-800 text-red-400 hover:bg-red-900/40"
+        }`}
+      >
+        <div
+          className={`w-2 h-2 rounded-full ${
+            isConnected ? "bg-emerald-400" : "bg-red-400"
+          }`}
+        />
+      </Ariakit.Button>
     </div>
   );
 }

@@ -63,10 +63,16 @@ export function useFlashblocksStream() {
             }
           }), {})
           
-          setReceiptLocations(prev => ({
-            ...prev,
-            ...newLocations
-          }))
+          setReceiptLocations((prev) => {
+            const updatedLocations = {
+              ...prev,
+              ...newLocations,
+            };
+            return cleanupReceiptLocations(
+              block.metadata.block_number,
+              updatedLocations
+            );
+          });
           
           setBlocks((prevBlocks) => {
             // Keep only the last 50 flashblocks

@@ -283,7 +283,7 @@ export function GameOfLife({
       className={`relative p-4 bg-gray-900 rounded-lg transition-colors ${
         highlight
           ? `${colorMap[highlightColor as keyof typeof colorMap].bgHighlight} ${colorMap[highlightColor as keyof typeof colorMap].ring}`
-          : ""
+          : `${colorMap[baseColor as keyof typeof colorMap].bgHighlight} ${colorMap[baseColor as keyof typeof colorMap].ring}`
       }`}
     >
       <div className="flex justify-between items-center mb-2">
