@@ -373,7 +373,7 @@ function App() {
               </p>
               <p>
                 Initiate a transaction to change the colour of the board, and
-                see how it more quickly it updates the Flashblocks game.
+                see how much faster it updates the Flashblocks game.
               </p>
               <div className="pt-2">
                 <p className="font-medium text-white">Links:</p>
