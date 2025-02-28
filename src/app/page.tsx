@@ -18,6 +18,7 @@ function App() {
   >("random");
   const [pendingTxHash, setPendingTxHash] = useState<string | null>(null);
   const [txColor, setTxColor] = useState<string>("emerald");
+  const [colorIndex, setColorIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -33,10 +34,21 @@ function App() {
     "cyan",
   ];
 
-  // Get a random color for new transactions
-  const getRandomColor = () => {
-    const randomIndex = Math.floor(Math.random() * highlightColors.length);
-    return highlightColors[randomIndex];
+  // Get the next color in the sequence
+  const getNextColor = () => {
+    const nextIndex = (colorIndex + 1) % highlightColors.length;
+    setColorIndex(nextIndex);
+    return highlightColors[nextIndex];
+  };
+
+  // Get the current (last confirmed) color
+  const getCurrentColor = () => highlightColors[colorIndex];
+
+  // Get the previous color in the sequence
+  const getPreviousColor = () => {
+    const prevIndex =
+      (colorIndex - 1 + highlightColors.length) % highlightColors.length;
+    return highlightColors[prevIndex];
   };
 
   // Get the current block from the latest flashblock
@@ -157,7 +169,7 @@ function App() {
 
       console.log("Transaction sent:", data.hash);
       setPendingTxHash(data.hash);
-      setTxColor(getRandomColor());
+      setTxColor(getNextColor());
     } catch (error) {
       console.error("Failed to send transaction:", error);
     } finally {
@@ -289,7 +301,7 @@ function App() {
               gridSize={50}
               cellSize={5}
               tickCount={flashblockTicks}
-              label="Flashblock"
+              label="Flashblock game"
               resetKey={resetKey}
               pattern={pattern}
               highlight={
@@ -297,17 +309,19 @@ function App() {
                 txLocation?.type === "block"
               }
               highlightColor={txColor}
+              baseColor={getPreviousColor()}
             />
 
             <GameOfLife
               gridSize={50}
               cellSize={5}
               tickCount={blockTicks}
-              label="Block"
+              label="Block game"
               resetKey={resetKey}
               pattern={pattern}
               highlight={txLocation?.type === "block"}
               highlightColor={txColor}
+              baseColor={getPreviousColor()}
             />
           </div>
 

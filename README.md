@@ -2,7 +2,7 @@
 
 Visualising the 10x speed of evolution of flashblocks vs. regular blocks, via Conway's Game Of Life.
 
-Initiate a transaction to change the colour of the board, and see how it more quickly propagates to the Flashblocks game.
+Initiate a transaction to change the colour of the board, and see how much faster it shows up on the Flashblocks game.
 
 Built for the [Flashblocks Builder Side Quest](https://docs.base.org/buildathons/2025-02-flash/)
 

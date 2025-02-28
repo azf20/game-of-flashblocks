@@ -109,7 +109,7 @@ export function useFlashblocksStream() {
   // Clean up old receipt locations
   const cleanupReceiptLocations = useCallback((currentBlockNumber: number, locations: Record<string, { blockNumber: number, index: number }>) => {
     // Keep receipts from the last 20 blocks
-    const minBlockToKeep = currentBlockNumber - 20
+    const minBlockToKeep = currentBlockNumber - 200;
     return Object.entries(locations).reduce((acc, [hash, location]) => {
       if (location.blockNumber >= minBlockToKeep) {
         acc[hash] = location
