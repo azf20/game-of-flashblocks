@@ -330,6 +330,18 @@ function App() {
             <GameOfLife
               gridSize={50}
               cellSize={5}
+              tickCount={blockTicks}
+              label="Block game"
+              resetKey={resetKey}
+              pattern={pattern}
+              highlight={txLocation?.type === "block"}
+              highlightColor={txColor}
+              baseColor={getColor(colorIndex - 1)}
+            />
+
+            <GameOfLife
+              gridSize={50}
+              cellSize={5}
               tickCount={flashblockTicks}
               label="Flashblock game"
               resetKey={resetKey}
@@ -338,18 +350,6 @@ function App() {
                 txLocation?.type === "flashblock" ||
                 txLocation?.type === "block"
               }
-              highlightColor={txColor}
-              baseColor={getColor(colorIndex - 1)}
-            />
-
-            <GameOfLife
-              gridSize={50}
-              cellSize={5}
-              tickCount={blockTicks}
-              label="Block game"
-              resetKey={resetKey}
-              pattern={pattern}
-              highlight={txLocation?.type === "block"}
               highlightColor={txColor}
               baseColor={getColor(colorIndex - 1)}
             />
