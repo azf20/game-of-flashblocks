@@ -5,6 +5,9 @@ import { GameOfLife } from '../components/GameOfLife'
 import { BlockInfo } from '../components/BlockInfo'
 import { useState, useEffect, useMemo } from 'react'
 import * as Ariakit from "@ariakit/react"
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const { blocks, receiptLocations, isConnected, reconnect } =
@@ -173,6 +176,10 @@ function App() {
       setTxColor(getNextColor());
     } catch (error) {
       console.error("Failed to send transaction:", error);
+      toast.error(<div className="text-sm">Failed to send transaction</div>, {
+        position: "top-center",
+        autoClose: 5000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -415,7 +422,7 @@ function App() {
       <Ariakit.Button
         onClick={isConnected ? undefined : reconnect}
         disabled={isConnected}
-        className={`fixed bottom-4 right-4 h-8 w-8 rounded-full transition-colors border flex items-center justify-center ${
+        className={`fixed bottom-4 right-4 h-8 px-2 rounded-full transition-colors border flex items-center gap-2 ${
           isConnected
             ? "bg-emerald-900/20 border-emerald-800 text-emerald-400 cursor-default"
             : "bg-red-900/20 border-red-800 text-red-400 hover:bg-red-900/40"
@@ -426,7 +433,15 @@ function App() {
             isConnected ? "bg-emerald-400" : "bg-red-400"
           }`}
         />
+        {!isConnected && <span className="text-sm">Reconnect</span>}
       </Ariakit.Button>
+      <ToastContainer
+        theme="dark"
+        toastClassName="!bg-gray-800 !text-gray-200"
+        position="top-center"
+        limit={3}
+        className="!text-sm"
+      />
     </div>
   );
 }
